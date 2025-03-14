@@ -1,4 +1,5 @@
-﻿using UI.ViewModel;
+﻿using System;
+using UI.ViewModel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,15 +9,25 @@ namespace UI.View
     {
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _settingsButton;
-        
-        public override void Initialize()
+
+        private void Awake()
+        {
+            Initialize();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
+        }
+
+        public void Initialize()
         {
             _startButton.onClick.AddListener(() => ViewModel.OnStartGame());
             _settingsButton.onClick.AddListener(() => ViewModel.OnSettingsOpen());
             Debug.Log("MenuView initialized");
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             _startButton.onClick.RemoveAllListeners();
             _settingsButton.onClick.RemoveAllListeners();

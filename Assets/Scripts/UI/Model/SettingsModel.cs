@@ -13,7 +13,7 @@ namespace UI.Model
             set
             {
                 _musicVolume = Mathf.Clamp01(value);
-                AudioListener.volume = _musicVolume; // Управляем глобальной громкостью
+                AudioListener.volume = _musicVolume;
                 SaveSettings();
             }
         }
@@ -24,7 +24,7 @@ namespace UI.Model
             set
             {
                 _sfxVolume = Mathf.Clamp01(value);
-                // Тут можно добавить управление громкостью звуковых эффектов
+                
                 SaveSettings();
             }
         }
@@ -39,7 +39,7 @@ namespace UI.Model
             _musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
             _sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
 
-            AudioListener.volume = _musicVolume; // Применяем громкость
+            AudioListener.volume = _musicVolume;
         }
 
         private void SaveSettings()

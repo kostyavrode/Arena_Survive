@@ -10,16 +10,22 @@ namespace UI
 {
     public class UIManager
     {
-        private readonly Dictionary<Type, IInitializable> _windows = new();
-        private IInitializable _currentWindow;
+        private readonly Dictionary<Type, ViewBase> _windows = new();
+        private ViewBase _currentWindow;
 
         [Inject]
-        public UIManager([InjectOptional] List<IInitializable> views)
+        public UIManager([InjectOptional] List<ViewBase> views)
         {
+            if (views == null || views.Count == 0)
+            {
+                Debug.LogError("UIManager: Не найдено ни одного окна!");
+                return;
+            }
+
             foreach (var view in views)
             {
                 _windows[view.GetType()] = view;
-                ((ViewBase)view).Hide();
+                view.Hide();
             }
         }
 
@@ -27,12 +33,12 @@ namespace UI
         {
             if (_currentWindow != null)
             {
-                ((ViewBase)_currentWindow).Hide();
+                _currentWindow.Hide();
             }
 
             if (_windows.TryGetValue(typeof(TView), out var newWindow))
             {
-                ((ViewBase)newWindow).Show();
+                newWindow.Show();
                 _currentWindow = newWindow;
             }
             else

@@ -9,14 +9,25 @@ namespace UI.View
         [SerializeField] private Button _closeButton;
         [SerializeField] private Slider _musicSlider;
         [SerializeField] private Slider _sfxSlider;
-        public override void Initialize()
+        
+        private void Awake()
+        {
+            Initialize();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
+        }
+        
+        public void Initialize()
         {
             _closeButton.onClick.AddListener( () => ViewModel.OnSettingsClose());
             _musicSlider.onValueChanged.AddListener(value => ViewModel.OnMusicSliderChanged(value));
             _sfxSlider.onValueChanged.AddListener( value => ViewModel.OnSFXSliderChanged(value));
         }
 
-        public override void Dispose()
+        public void Dispose()
         {
             _closeButton.onClick.RemoveAllListeners();
             _musicSlider.onValueChanged.RemoveAllListeners();

@@ -1,7 +1,5 @@
 ﻿using UI.Model;
 using UI.View;
-using UnityEditorInternal;
-using UnityEngine;
 
 namespace UI.ViewModel
 {
