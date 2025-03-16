@@ -2,6 +2,7 @@
 using Core.Enemies;
 using Core.Spawners;
 using Core.StateMachine;
+using Player;
 using UI;
 using UI.Model;
 using UI.View;
@@ -18,6 +19,7 @@ namespace Core
             RegisterUI();
             BindGameStateMachine();
             BindEnemiesAndFactory();
+            BindPlayer();
         }
 
         private void RegisterUI()
@@ -27,22 +29,22 @@ namespace Core
             Container.Bind<MenuModel>().AsSingle();
             Container.Bind<MenuViewModel>().AsSingle();
             Container.Bind<ViewBase>().To<MenuView>().FromComponentInHierarchy().AsSingle();
-            //Container.BindInterfacesAndSelfTo<MenuView>().FromComponentInHierarchy().AsSingle();
             
             Container.Bind<PlayingModel>().AsSingle();
             Container.Bind<PlayingViewModel>().AsSingle();
             Container.Bind<ViewBase>().To<PlayingView>().FromComponentInHierarchy().AsSingle();
-            //Container.BindInterfacesAndSelfTo<PlayingView>().FromComponentInHierarchy().AsSingle();
             
             Container.Bind<PauseModel>().AsSingle();
             Container.Bind<PauseViewModel>().AsSingle();
             Container.Bind<ViewBase>().To<PauseView>().FromComponentInHierarchy().AsSingle();
-            //Container.BindInterfacesAndSelfTo<PauseView>().FromComponentInHierarchy().AsSingle();
             
             Container.Bind<SettingsModel>().AsSingle();
             Container.Bind<SettingsViewModel>().AsSingle();
             Container.Bind<ViewBase>().To<SettingsView>().FromComponentInHierarchy().AsSingle();
-            //Container.BindInterfacesAndSelfTo<SettingsView>().FromComponentInHierarchy().AsSingle();
+            
+            Container.Bind<GameOverModel>().AsSingle();
+            Container.Bind<GameOverViewModel>().AsSingle();
+            Container.Bind<ViewBase>().To<GameOverView>().FromComponentInHierarchy().AsSingle();
         }
 
         private void BindGameStateMachine()
@@ -50,7 +52,6 @@ namespace Core
             Container.Bind<MenuState>().AsSingle();
             Container.Bind<PlayingState>().AsSingle();
             Container.Bind<PauseState>().AsSingle();
-            Container.Bind<MiniGameState>().AsSingle();
             Container.Bind<GameOverState>().AsSingle();
             
             Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle().NonLazy();
@@ -66,6 +67,12 @@ namespace Core
 
             Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle().WithArguments(enemyPrefabs);
             Container.Bind<EnemySpawner>().FromComponentInHierarchy().AsSingle();
+        }
+        
+        private void BindPlayer()
+        {
+            Container.Bind<PlayerFactory>().AsSingle()
+                .WithArguments(Resources.Load<GameObject>("PlayerPrefab"));
         }
     }
 }

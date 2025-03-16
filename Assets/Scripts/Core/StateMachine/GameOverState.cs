@@ -8,14 +8,12 @@ namespace Core.StateMachine
 {
     public class GameOverState : IState
     {
-        private readonly GameStateMachine _gameStateMachine;
         private readonly UIManager _uiManager;
         private readonly GameOverModel _gameOverModel;
         private readonly PlayingModel _playingModel;
 
-        public GameOverState(GameStateMachine gameStateMachine, UIManager uiManager, GameOverModel gameOverModel, PlayingModel playingModel)
+        public GameOverState(UIManager uiManager, GameOverModel gameOverModel, PlayingModel playingModel)
         {
-            _gameStateMachine = gameStateMachine;
             _uiManager = uiManager;
             _gameOverModel = gameOverModel;
             _playingModel = playingModel;

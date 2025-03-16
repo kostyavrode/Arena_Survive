@@ -10,6 +10,5 @@
 
         void Move();
         void Attack();
-        void TakeDamage(float amount);
     }
 }

@@ -2,6 +2,7 @@
 using Core;
 using Core.StateMachine;
 using UI.Model;
+using UI.View;
 
 namespace UI.ViewModel
 {
@@ -25,11 +26,13 @@ namespace UI.ViewModel
         public void RestartGame()
         {
             _gameStateMachine.ChangeState<PlayingState>();
+            _uiManager.OpenWindow<PlayingView>();
         }
 
         public void BackToMenu()
         {
             _gameStateMachine.ChangeState<MenuState>();
+            _uiManager.OpenWindow<MenuView>();
         }
     }
 }

@@ -1,50 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Core.Spawners;
-using UI;
-using UI.Model;
-using Zenject;
+﻿using Core.Spawners;
+using Player;
 
 namespace Core.StateMachine
 {
     public class PlayingState : IState
     {
-        private readonly LazyInject<GameStateMachine> _gameStateMachine;
-        private readonly UIManager _uiManager;
         private readonly EnemySpawner _enemySpawner;
-        private readonly PlayingModel _playingModel;
+        private readonly PlayerFactory _playerFactory;
+        
+        private PlayerController _playerController;
 
-        public PlayingState(LazyInject<GameStateMachine> gameStateMachine, UIManager uiManager, EnemySpawner enemySpawner, PlayingModel playingModel)
+        public PlayingState (EnemySpawner enemySpawner, PlayerFactory playerFactory)
         {
-            _gameStateMachine = gameStateMachine;
-            _uiManager = uiManager;
             _enemySpawner = enemySpawner;
-            _playingModel = playingModel;
+            _playerFactory = playerFactory;
         }
 
         public void Enter()
         {
+            _playerFactory.Create();
+            
             _enemySpawner.StartSpawning();
         }
 
         public void Exit()
         {
+            _playerFactory.DestroyPlayer();
             
-        }
-
-        public void Update(float deltaTime)
-        {
-            _playingModel.UpdateTimer(deltaTime);
-        }
-
-        public void OnEnemyKilled()
-        {
-            _playingModel.AddKill();
-        }
-
-        public void OnPlayerDied()
-        {
-            _gameStateMachine.Value.ChangeState<GameOverState>();
+            _enemySpawner.StopSpawning();
         }
     }
 }

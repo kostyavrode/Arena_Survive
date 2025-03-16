@@ -21,13 +21,14 @@ namespace Core
         public IState CurrentState => _currentState;
 
         [Inject]
-        public GameStateMachine(MenuState menu, PlayingState playing, PauseState pause)
+        public GameStateMachine(MenuState menu, PlayingState playing, PauseState pause, GameOverState gameOver)
         {
             _states = new Dictionary<Type, IState>
             {
                 [typeof(MenuState)] = menu,
                 [typeof(PlayingState)] = playing,
-                [typeof(PauseState)] = pause
+                [typeof(PauseState)] = pause,
+                [typeof(GameOverState)] = gameOver,
             };
         }
 

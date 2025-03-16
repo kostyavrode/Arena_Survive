@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Core.EntitiesInterfaces;
+using UnityEngine;
 
 namespace Core.Enemies
 {
-    public abstract class BaseEnemy : MonoBehaviour, IEnemy
+    public abstract class BaseEnemy : MonoBehaviour, IEnemy, IDamageable
     {
         [SerializeField] protected float health;
         [SerializeField] protected float damage;
@@ -31,9 +32,9 @@ namespace Core.Enemies
         public abstract void Move();
         public abstract void Attack();
 
-        public void TakeDamage(float amount)
+        public void TakeDamage(int damageAmount)
         {
-            health -= amount;
+            health -= damageAmount;
             if (health <= 0)
             {
                 Die();
