@@ -1,5 +1,10 @@
 ﻿using System;
+using Core;
+using Core.StateMachine;
+using UnityEditor;
 using UnityEngine;
+using Zenject;
+using PauseState = Core.StateMachine.PauseState;
 
 namespace UI.Model
 {
@@ -7,47 +12,43 @@ namespace UI.Model
     {
         public event Action<int> OnScoreChanged;
         public event Action<float> OnTimeUpdated;
-
+        
+        private readonly LazyInject<GameStateMachine> _gameStateMachine;
+        
         private int _score;
-        private float _timeRemaining;
+        private float _survivalTime;
 
-        public int Score
+        public int Score => _score;
+        public float SurvivalTime => _survivalTime;
+
+        public PlayingModel(LazyInject<GameStateMachine> gameStateMachine)
         {
-            get => _score;
-            set
-            {
-                _score = value;
-                OnScoreChanged?.Invoke(_score);
-            }
+            _gameStateMachine = gameStateMachine;
         }
 
-        public float TimeRemaining
+        public void PauseGame()
         {
-            get => _timeRemaining;
-            set
-            {
-                _timeRemaining = Mathf.Max(0, value);
-                OnTimeUpdated?.Invoke(_timeRemaining);
-            }
-        }
-
-        public PlayingModel()
-        {
-            _score = 0;
-            _timeRemaining = 60f; // Например, 60 секунд
+            _gameStateMachine.Value.ChangeState<PauseState>();
         }
 
         public void UpdateTimer(float deltaTime)
         {
-            if (_timeRemaining > 0)
-            {
-                TimeRemaining -= deltaTime;
-            }
+            _survivalTime += deltaTime;
+            OnTimeUpdated?.Invoke(_survivalTime);
         }
 
-        public void AddScore(int amount)
+        public void AddKill()
         {
-            Score += amount;
+            _score++;
+            OnScoreChanged?.Invoke(_score);
+        }
+
+        public void ResetGame()
+        {
+            _score = 0;
+            _survivalTime = 0;
+            OnScoreChanged?.Invoke(_score);
+            OnTimeUpdated?.Invoke(_survivalTime);
         }
     }
 }

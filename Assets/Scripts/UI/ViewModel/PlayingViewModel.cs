@@ -24,11 +24,12 @@ namespace UI.ViewModel
         public void OnPauseGame()
         {
             _uiManager.OpenWindow<PauseView>();
+            _model.PauseGame();
         }
 
         public void AddScore(int amount)
         {
-            _model.AddScore(amount);
+            
         }
 
         public void UpdateTimer(float deltaTime)

@@ -22,7 +22,8 @@ namespace UI.ViewModel
 
         public void GoToMainMenu()
         {
-            _pauseModel.SetPause(false);
+            //_pauseModel.SetPause(false);
+            _pauseModel.BackToMainMenu();
             _uiManager.OpenWindow<MenuView>();
         }
     }

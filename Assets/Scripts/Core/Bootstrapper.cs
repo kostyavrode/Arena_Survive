@@ -1,8 +1,12 @@
-﻿using Core.StateMachine;
+﻿using System.Collections.Generic;
+using Core.Enemies;
+using Core.Spawners;
+using Core.StateMachine;
 using UI;
 using UI.Model;
 using UI.View;
 using UI.ViewModel;
+using UnityEngine;
 using Zenject;
 
 namespace Core
@@ -13,6 +17,7 @@ namespace Core
         {
             RegisterUI();
             BindGameStateMachine();
+            BindEnemiesAndFactory();
         }
 
         private void RegisterUI()
@@ -49,6 +54,18 @@ namespace Core
             Container.Bind<GameOverState>().AsSingle();
             
             Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle().NonLazy();
+        }
+
+        private void BindEnemiesAndFactory()
+        {
+            var enemyPrefabs = new Dictionary<EnemyType, GameObject>
+            {
+                { EnemyType.Fast, Resources.Load<GameObject>("Enemies/FastEnemy") },
+                { EnemyType.Tank, Resources.Load<GameObject>("Enemies/TankEnemy") }
+            };
+
+            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle().WithArguments(enemyPrefabs);
+            Container.Bind<EnemySpawner>().FromComponentInHierarchy().AsSingle();
         }
     }
 }

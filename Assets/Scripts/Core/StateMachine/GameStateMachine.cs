@@ -13,7 +13,12 @@ namespace Core
 
     {
         private readonly Dictionary<Type, IState> _states;
+        
+        public Action<IState> onGameStateChanged;
+        
         private IState _currentState;
+        
+        public IState CurrentState => _currentState;
 
         [Inject]
         public GameStateMachine(MenuState menu, PlayingState playing, PauseState pause)
@@ -36,6 +41,10 @@ namespace Core
             _currentState?.Exit();
             _currentState = (IState)_states[stateType];
             _currentState.Enter();
+            
+            onGameStateChanged?.Invoke(_currentState);
+            
+            Debug.Log("State Changed to:["+_currentState.GetType().Name+"]");
         }
 
         public void ChangeState<T>() where T : IState

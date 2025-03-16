@@ -23,13 +23,18 @@ namespace UI.Model
         {
             _isPaused = isPaused;
             OnPauseStateChanged?.Invoke(_isPaused);
-        
-            Time.timeScale = _isPaused ? 0f : 1f;
 
             if (_isPaused)
                 _gameStateMachine.ChangeState<PauseState>();
             else
                 _gameStateMachine.ChangeState<PlayingState>();
+        }
+
+        public void BackToMainMenu()
+        {
+            _gameStateMachine.ChangeState<MenuState>();
+            _isPaused = false;
+            OnPauseStateChanged?.Invoke(_isPaused);
         }
     }
 }
