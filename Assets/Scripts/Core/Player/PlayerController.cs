@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Player
 {
-    public class PlayerController : MonoBehaviour, IDamageable
+    public class PlayerController : MonoBehaviour, IDamageable, IMoveable
     {
         private GameStateMachine _gameStateMachine;
         
@@ -47,10 +47,9 @@ namespace Player
         private void Update()
         {
             Vector3 movementInput = _input.GetMovementInput();
-            _mover.Move(movementInput);
-            _rotator.Rotate(movementInput);
+            Move(movementInput);
 
-            if (Input.GetButtonDown("Fire1"))
+            if (_input.GetFireButtonStatus())
             {
                 _shooter.Shoot();
             }
@@ -61,9 +60,16 @@ namespace Player
             _health.TakeDamage(damage);
         }
 
+        public void Move(Vector3 direction)
+        {
+            _mover.Move(direction);
+            _rotator.Rotate(direction);
+        }
+        
         public void Death()
         {
             _gameStateMachine.ChangeState<GameOverState>();
         }
+        
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Core.EntitiesInterfaces;
+using Player;
 using UnityEngine;
+using Zenject;
 
 namespace Core.Enemies
 {
@@ -11,18 +13,13 @@ namespace Core.Enemies
         [SerializeField] protected float attackRadius;
         [SerializeField] protected float attackCooldown;
 
-        protected Transform player;
+        public Transform _target;
 
         public float Health => health;
         public float Damage => damage;
         public float Speed => speed;
         public float AttackRadius => attackRadius;
         public float AttackCooldown => attackCooldown;
-
-        protected virtual void Start()
-        {
-            player = GameObject.FindWithTag("Player")?.transform;
-        }
 
         protected virtual void Update()
         {

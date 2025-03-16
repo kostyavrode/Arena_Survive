@@ -16,18 +16,15 @@ namespace Core.Spawners
 
         private IEnemyFactory _enemyFactory;
         
-        private LazyInject<GameStateMachine> _gameStateMachine;
-        
         private List<BaseEnemy> _enemies = new List<BaseEnemy>();
         
         private bool _isSpawning;
         private bool _isPaused;
 
         [Inject]
-        public void Construct(IEnemyFactory enemyFactory, LazyInject<GameStateMachine> gameStateMachine)
+        public void Construct(IEnemyFactory enemyFactory)
         {
             _enemyFactory = enemyFactory;
-            _gameStateMachine = gameStateMachine;
         }
 
         public void StartSpawning()

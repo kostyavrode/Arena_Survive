@@ -6,9 +6,9 @@ namespace Core.Enemies
     {
         public override void Move()
         {
-            if (player != null)
+            if (_target != null)
             {
-                transform.position = Vector3.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _target.position, speed * Time.deltaTime);
             }
         }
 

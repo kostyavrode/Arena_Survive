@@ -10,5 +10,10 @@ namespace Player
             float vertical = Input.GetAxis("Vertical");
             return new Vector3(horizontal, 0, vertical).normalized;
         }
+
+        public bool GetFireButtonStatus()
+        {
+            return Input.GetButton("Fire1");
+        }
     }
 }
